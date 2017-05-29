@@ -22,12 +22,22 @@ public:
 
 	ATank* GetControlledTank() const;
 	
+
+private:
+
+	UPROPERTY(EditAnywhere)
+	float CrossHairXLocation = 0.5f;
+
+	UPROPERTY(EditAnywhere)
+	float CrossHairYLocation = 0.3333f;
+
 private:
 	// Start the tank moving the barrel so that a shot would hit where 
 	// the crosshair intersects the world
 	void AimTowardsCrosshair();
 
 	// Return an out parameter, true if hit landscape
-	bool GetSightRayHitLocation(FVector& outHitLocation) const;
-	
+	bool GetSightRayHitLocation(FVector& outHitLocation) const;		
+
+	bool GetLookDirecton(FVector2D screenLocation, FVector& lookDirection) const;
 };
