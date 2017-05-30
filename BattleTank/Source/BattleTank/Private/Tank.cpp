@@ -17,9 +17,12 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+}
 
-	
-	
+
+void ATank::SetBarrelReference(UStaticMeshComponent* barrelToSet)
+{
+	TankAimingComponent->SetBarrelReference(barrelToSet);
 }
 
 // Called every frame
@@ -38,7 +41,8 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector hitLocation)
 {
-	auto ourTankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s:"), *ourTankName, *hitLocation.ToString());
+	// Call the AimAt method from TankAimingComponent
+	TankAimingComponent->AimAt(hitLocation);
+	
 }
 

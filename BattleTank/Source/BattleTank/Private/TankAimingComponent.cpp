@@ -14,14 +14,24 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* barrelToSet)
+{
+	barrel = barrelToSet;
+}
+
 
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	if (barrel != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[UTankAimingComponent] there is a barrel:"));
+	}else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[UTankAimingComponent] there is NO a barrel:"));
+	}
 }
 
 
@@ -31,5 +41,26 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+
+void UTankAimingComponent::AimAt(FVector hitLocation)
+{
+	
+	if (barrel != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[UTankAimingComponent] there is a barrel:"));
+
+		auto ourTankName = GetOwner()->GetName();
+		auto barrelPosition = barrel->GetComponentLocation().ToString();
+		UE_LOG(LogTemp, Warning, TEXT("[AimAt] %s aiming at %s: from %s"), *ourTankName, *hitLocation.ToString(), *barrelPosition);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[UTankAimingComponent] there is NO a barrel:"));
+	}
+
+	//
+	
 }
 
