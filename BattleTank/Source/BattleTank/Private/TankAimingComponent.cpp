@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
+#include "TankBarrel.h"
 #include "TankAimingComponent.h"
+
 
 
 // Sets default values for this component's properties
@@ -14,7 +16,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* barrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* barrelToSet)
 {
 	barrel = barrelToSet;
 }
@@ -55,6 +57,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 
 	// Move the barrel
 	//barrel->AddLocalRotation(deltaRotator);
+	barrel->Elevate(5);
 
 	// Given a max elevation speed, and the frame time
 	
