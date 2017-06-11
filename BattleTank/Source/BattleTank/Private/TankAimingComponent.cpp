@@ -48,8 +48,8 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed)
 	}else
 	{
 	
-		float time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f NO found solution"), time);
+		//float time = GetWorld()->GetTimeSeconds();
+		//UE_LOG(LogTemp, Warning, TEXT("%f NO found solution"), time);
 	}
 }
 
@@ -64,9 +64,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 
 	// Move the barrel
 	//barrel->AddLocalRotation(deltaRotator);
-	barrel->Elevate(5);
-
-	// Given a max elevation speed, and the frame time
+	barrel->Elevate(deltaRotator.Pitch);
+	
 	
 
 }
