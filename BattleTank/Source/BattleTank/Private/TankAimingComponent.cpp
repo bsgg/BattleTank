@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "TankAimingComponent.h"
 
 
@@ -72,5 +73,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 	// Move the barrel
 	//barrel->AddLocalRotation(deltaRotator);
 	barrel->Elevate(deltaRotator.Pitch);
+
+	turret->Rotate(deltaRotator.Yaw);
 }
 
