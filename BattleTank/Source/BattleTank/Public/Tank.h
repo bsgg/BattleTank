@@ -16,13 +16,19 @@ class BATTLETANK_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-	void AimAt(FVector hitLocation);
+	
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* barrelToSet);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretBarrelReference(UTankTurret* turretToSet);
+	
+
+	void AimAt(FVector hitLocation);
+
+	UFUNCTION(BlueprintCallable)
+	void Fire();
 
 protected:
 
