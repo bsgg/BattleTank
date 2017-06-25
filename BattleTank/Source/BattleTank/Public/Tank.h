@@ -45,6 +45,10 @@ private:
 
 	UTankBarrel* Barrel = nullptr;
 
+	float ReloadTimeInSeconds = 3.0f;
+
+	double LastFireTime = 0;
+
 private:
 
 	// Sets default values for this pawn's properties
