@@ -37,15 +37,18 @@ protected:
 
 private:
 
-	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 40000;
-
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
-	UTankBarrel* Barrel = nullptr;
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 40000;
 
+	// EditDefaultsOnly only allows you to edit the archetype (all the tanks elements must have the same values)
+	// You can't modify each prefab by itself. Only in the blueprint itself not in the instances (Editor of each element)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTimeInSeconds = 3.0f;
+
+	UTankBarrel* Barrel = nullptr;	
 
 	double LastFireTime = 0;
 
