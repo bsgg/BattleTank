@@ -5,33 +5,26 @@
 #include "TankAIController.h"
 
 
-
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
+// Called every frame
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	auto playerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (playerTank)
+	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto ControlledTank = Cast<ATank>(GetPawn());
+
+	if (PlayerTank)
 	{
-		ATank * controllerTank = Cast<ATank>(playerTank);
-		if (controllerTank)
-		{
-			//float time = GetWorld()->GetTimeSeconds();
-			//UE_LOG(LogTemp, Warning, TEXT("%f Player tank controller found"), time);
-			
-			controllerTank->AimAt(playerTank->GetActorLocation());
+		// TODO Move towards the player
+		
+		// Aim towards the player
+		ControlledTank->AimAt(PlayerTank->GetActorLocation());
 
-			//controllerTank->Fire(); 
-
-		}
+		ControlledTank->Fire(); // TODO limit firing rate
 	}
-
 }
-
-
-

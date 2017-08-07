@@ -3,11 +3,10 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
-#include "Tank.generated.h"
+#include "Tank.generated.h" // Put new includes above
 
 // Forward declarations
 class UTankBarrel;
-class UTankTurret;
 class UTankAimingComponent;
 class AProjectile;
 
@@ -17,52 +16,41 @@ class BATTLETANK_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-	
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* barrelToSet);
+	void SetTurretReference(UTankTurret* TurretToSet);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretBarrelReference(UTankTurret* turretToSet);
-	
+	void AimAt(FVector HitLocation);
 
-	void AimAt(FVector hitLocation);
-
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = Firing)
 	void Fire();
 
 protected:
-
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:
+	// Sets default values for this pawn's properties
+	ATank();
 
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+	
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float LaunchSpeed = 40000;
+	float LaunchSpeed = 4000;
 
-	// EditDefaultsOnly only allows you to edit the archetype (all the tanks elements must have the same values)
-	// You can't modify each prefab by itself. Only in the blueprint itself not in the instances (Editor of each element)
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float ReloadTimeInSeconds = 3.0f;
-
-	UTankBarrel* Barrel = nullptr;	
-
-	double LastFireTime = 0;
-
-private:
-
-	// Sets default values for this pawn's properties
-	ATank();
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	float ReloadTimeInSeconds = 3;
 	
+	// Local barrel reference for spawning projectile
+	UTankBarrel* Barrel = nullptr;
+	
+	double LastFireTime = 0;
 };

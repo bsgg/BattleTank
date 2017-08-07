@@ -10,13 +10,8 @@ AProjectile::AProjectile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// No need to protect pointers as added at construction
-	ProjectileComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
-	if (ProjectileComponent)
-	{
-		ProjectileComponent->bAutoActivate = false;
-	}
-
+	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
+	ProjectileMovement->bAutoActivate = false;
 }
 
 // Called when the game starts or when spawned
@@ -27,18 +22,14 @@ void AProjectile::BeginPlay()
 }
 
 // Called every frame
-void AProjectile::Tick(float DeltaTime)
+void AProjectile::Tick( float DeltaTime )
 {
-	Super::Tick(DeltaTime);
+	Super::Tick( DeltaTime );
 
 }
 
 void AProjectile::LaunchProjectile(float Speed)
 {
-	/*float time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f LaunchProjectile at Speed %f"), time, Speed);*/
-
-	ProjectileComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
-	ProjectileComponent->Activate();
+	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
+	ProjectileMovement->Activate();
 }
-

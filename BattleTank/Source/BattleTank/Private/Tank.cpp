@@ -2,80 +2,65 @@
 
 #include "BattleTank.h"
 #include "TankBarrel.h"
-#include "Tank.h"
 #include "Projectile.h"
 #include "TankAimingComponent.h"
+#include "Tank.h"
 
 
 // Sets default values
 ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-	// No need to protect pointers as added at construction
+	PrimaryActorTick.bCanEverTick = false;
+
+	// No need to protect points as added at construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+}
+
+void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
+{
+	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	Barrel = BarrelToSet;
+}
+
+void ATank::SetTurretReference(UTankTurret* TurretToSet)
+{
+	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-
-void ATank::SetBarrelReference(UTankBarrel* barrelToSet)
-{
-	TankAimingComponent->SetBarrelReference(barrelToSet);
-	Barrel = barrelToSet;
-}
-
-
-void ATank::SetTurretBarrelReference(UTankTurret* turretToSet)
-{
-	TankAimingComponent->SetTurretReference(turretToSet);
-}
-
-// Called every frame
-void ATank::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
+	
 }
 
 // Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	Super::SetupPlayerInputComponent(InputComponent);
 
 }
 
-void ATank::AimAt(FVector hitLocation)
+void ATank::AimAt(FVector HitLocation)
 {
-	// Call the AimAt method from TankAimingComponent
-	TankAimingComponent->AimAt(hitLocation, LaunchSpeed);
-	
+	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
 {
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	/*float time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f Fire!"), time);*/
-
-	if (Barrel && isReloaded) 
+	if (Barrel && isReloaded)
 	{
-
 		// Spawn a projectile at the socket location on the barrel
-		auto projectile = GetWorld()->SpawnActor<AProjectile>(
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
 			Barrel->GetSocketLocation(FName("Projectile")),
 			Barrel->GetSocketRotation(FName("Projectile"))
 			);
 
-		projectile->LaunchProjectile(LaunchSpeed);
+		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 	}
-
 }
-

@@ -3,11 +3,17 @@
 #include "BattleTank.h"
 #include "TankTrack.h"
 
-void UTankTrack :: SetThrottle(float throttle)
+
+
+void UTankTrack::SetThrottle(float Throttle)
 {
-	//float time = GetWorld()->GetTimeSeconds();
-	auto name = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s: Throttle %f"), *name, throttle);
+	//auto Time = GetWorld()->GetTimeSeconds();
+	auto Name = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s throttle: %f"), *Name, Throttle);
+
+	// TODO clamp actual throttle value so player can't over-drive
+	auto foreApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
+	auto forceLocation = GetComponentLocation();
+	auto tankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
+	tankRoot->AddForceAtLocation(foreApplied, forceLocation);
 }
-
-
