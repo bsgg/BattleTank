@@ -16,6 +16,11 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay(); // Needed for BP Begin Play to run!!
+}
+
 void ATank::AimAt(FVector HitLocation)
 {
 	if (!TankAimingComponent) return;
