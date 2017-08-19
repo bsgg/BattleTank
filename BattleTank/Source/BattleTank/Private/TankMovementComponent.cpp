@@ -55,7 +55,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	IntendTurnRight(RigthThrow);
 
 
-	UE_LOG(LogTemp, Warning, TEXT("Right: %f, Forward: %f"), RigthThrow, forwardThrow);
+	//UE_LOG(LogTemp, Warning, TEXT("Right: %f, Forward: %f"), RigthThrow, forwardThrow);
 
 }
 
