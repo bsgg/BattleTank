@@ -36,7 +36,7 @@ public:
 protected:
 	//UPROPERTY BlueprintReadOnly has to be in protected section
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Aiming;
+	EFiringState FiringState = EFiringState::Locked;
 
 private:
 

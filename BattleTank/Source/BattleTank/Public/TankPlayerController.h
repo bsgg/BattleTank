@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Cubenary
 
 #pragma once
 
@@ -6,9 +6,10 @@
 #include "TankPlayerController.generated.h" // Must be the last include
 
 class ATank;
+class UTankAimingComponent;
 
 /**
- * 
+ *  Responsible for helping hte player aim
  */
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
@@ -18,6 +19,10 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
+
+	// BlueprintImplementableEvent: Macro wich allow us to call an event in blueprint and doesnt' need an implementation in cpp file
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FoundAimingComponet(UTankAimingComponent* aimingCompRef);
 
 private:	
 	
