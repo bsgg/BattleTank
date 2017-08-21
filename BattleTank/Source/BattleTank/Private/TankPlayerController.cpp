@@ -12,7 +12,7 @@ void ATankPlayerController::BeginPlay()
 
 	// Find aimingComponent in the tank pawn and call the event
 	auto aimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (aimingComponent)
+	if (ensure(aimingComponent))
 	{
 		FoundAimingComponet(aimingComponent);
 	}else
@@ -34,7 +34,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 
 	FVector HitLocation; // Out parameter
 	if (GetSightRayHitLocation(HitLocation)) // Has "side-effect", is going to line trace
