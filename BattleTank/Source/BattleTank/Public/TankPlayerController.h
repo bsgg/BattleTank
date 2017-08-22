@@ -5,7 +5,6 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h" // Must be the last include
 
-class ATank;
 class UTankAimingComponent;
 
 /**
@@ -17,8 +16,6 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
 
 	// BlueprintImplementableEvent: Macro wich allow us to call an event in blueprint and doesnt' need an implementation in cpp file
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
