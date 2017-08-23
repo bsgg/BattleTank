@@ -37,7 +37,7 @@ public:
 protected:
 	//UPROPERTY BlueprintReadOnly has to be in protected section
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Locked;
+	EFiringState FiringState = EFiringState::Reloading;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000;
@@ -46,6 +46,10 @@ private:
 
 	// Sets default values for this component's properties
 	UTankAimingComponent();
+
+	virtual void TickComponent ( float DeltaTime, enum ELevelTick TickType,	FActorComponentTickFunction * ThisTickFunction) override;
+
+	virtual void BeginPlay() override;
 
 	void MoveBarrelTowards(FVector AimDirection);
 
