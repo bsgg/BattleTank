@@ -51,12 +51,16 @@ private:
 
 	virtual void BeginPlay() override;
 
-	void MoveBarrelTowards(FVector AimDirection);
+	void MoveBarrelTowards(FVector aimDirection);
+
+	bool IsBarrelMoving() const;
 
 private:
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;	
+
+	FVector AimDirection;
 
 
 public:
