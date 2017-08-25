@@ -5,44 +5,51 @@
 
 UTankTrack::UTankTrack()
 {
-	PrimaryComponentTick.bCanEverTick = true;	
+	PrimaryComponentTick.bCanEverTick = false;	
 }
 
 void UTankTrack::BeginPlay()
 {
+	Super::BeginPlay();
+
+	UE_LOG(LogTemp, Warning, TEXT("UTankTrack::BeginPlay"));
 	// On Hit events
 	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
 }
 
-void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("I'm hit, I'm hit"));
+	DriveTrack();
+	ApplySidewaysForce();
+	CurrentThrottle = 0.0f;
 }
 
-void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+void UTankTrack::ApplySidewaysForce()
 {
-	//Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	//UE_LOG(LogTemp, Warning, TEXT("UTankTrack::TickComponent"));
-
 	// Calculate the slippage speed
 	float slippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
 
-	
+	//Get deltatime
+	auto deltaTime = GetWorld()->GetDeltaSeconds();
+
 	// Work out required acceleration this frame to correct
-	FVector correctionAcceleration = -slippageSpeed / DeltaTime * GetRightVector();
+	FVector correctionAcceleration = -slippageSpeed / deltaTime * GetRightVector();
 
 	// Calculate and apply sidewasy for (F = m * a)
-	auto tankRoot =  Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
+	auto tankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
 	auto correctionForce = (tankRoot->GetMass() * correctionAcceleration) / 2; // There are 2 tracks
 	tankRoot->AddForce(correctionForce);
-
 }
 
 void UTankTrack::SetThrottle(float Throttle)
 {
+	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1, 1);
+	
+}
 
-	auto foreApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
+void UTankTrack::DriveTrack()
+{
+	auto foreApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;
 	auto forceLocation = GetComponentLocation();
 	auto tankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	tankRoot->AddForceAtLocation(foreApplied, forceLocation);
