@@ -14,7 +14,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// off to improve performance if you don't need them.
 	//bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
-
+	Ammo = 10;
 }
 
 void UTankAimingComponent::BeginPlay()
@@ -29,8 +29,11 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
 	//Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	if (Ammo <= 0)
+	{
+		FiringState = EFiringState::NoAmmo;
+	}
+	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
 	{
 		FiringState = EFiringState::Reloading;
 	}
@@ -110,10 +113,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 
 void UTankAimingComponent::Fire()
 {
-
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-
-	if (FiringState != EFiringState::Reloading)
+	if ((FiringState == EFiringState::Locked) || (FiringState == EFiringState::Aiming))
 	{
 		if (!ensure(Barrel)) return;
 		if (!ensure(ProjectileBlueprint)) return;
@@ -127,5 +127,20 @@ void UTankAimingComponent::Fire()
 
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+		
+
+		// Decrease Ammo and set state to NoAmmo if there is no ammo
+		Ammo -= 1;
+
 	}
+}
+
+EFiringState UTankAimingComponent::GetFireState() const
+{
+	return FiringState;
+}
+
+int UTankAimingComponent::GetAmmoLeft() const
+{
+	return Ammo;
 }

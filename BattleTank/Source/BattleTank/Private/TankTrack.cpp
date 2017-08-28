@@ -12,7 +12,6 @@ void UTankTrack::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("UTankTrack::BeginPlay"));
 	// On Hit events
 	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
 }

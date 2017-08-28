@@ -11,7 +11,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	NoAmmo
 };
 
 
@@ -42,6 +43,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000;
 
+	
+	
+
 private:
 
 	// Sets default values for this component's properties
@@ -62,9 +66,10 @@ private:
 
 	FVector AimDirection;
 
+	float Ammo = 10;
 
 public:
-	UFUNCTION(BlueprintCallable, Category = Firing)
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
@@ -75,4 +80,9 @@ public:
 	float ReloadTimeInSeconds = 3;
 
 	double LastFireTime = 0;
+
+	EFiringState GetFireState() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetAmmoLeft() const;
 };
