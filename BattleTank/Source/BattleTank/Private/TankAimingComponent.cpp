@@ -14,7 +14,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// off to improve performance if you don't need them.
 	//bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
-	Ammo = 10;
+	Ammo = 3;
 }
 
 void UTankAimingComponent::BeginPlay()
@@ -101,10 +101,11 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 	Barrel->Elevate(DeltaRotator.Pitch);
 
 	// Always yaw the shortest way
-	if (DeltaRotator.Yaw < 180.0f)
+	if (FMath::Abs(DeltaRotator.Yaw) < 180.0f)
 	{
 		Turret->Rotate(DeltaRotator.Yaw);
-	}else
+
+	}else // Avoid going the long-way round
 	{
 		Turret->Rotate(-DeltaRotator.Yaw);
 	}
