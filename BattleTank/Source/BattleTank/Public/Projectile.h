@@ -22,6 +22,9 @@ public:
 
 	void LaunchProjectile(float Speed);
 
+	
+	
+
 private:
 	
 
@@ -30,6 +33,11 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UParticleSystemComponent* LaunchBlast = nullptr;
+
+protected:
+	
+
+	
 
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 
