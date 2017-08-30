@@ -42,10 +42,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000;
-
-	
-	
-
 private:
 
 	// Sets default values for this component's properties
@@ -64,13 +60,10 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;	
 
-	FVector AimDirection;
-
-	float Ammo = 3; 
+	FVector AimDirection;	
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "Firing")
-	void Fire();
+	
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
@@ -79,10 +72,21 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 Ammo = 3;
+
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
+
+
 	double LastFireTime = 0;
 
 	EFiringState GetFireState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetAmmoLeft() const;
+	int32 GetAmmoLeft() const;
+
+	
+
 };
