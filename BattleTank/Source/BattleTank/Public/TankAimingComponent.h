@@ -66,7 +66,7 @@ private:
 
 	FVector AimDirection;
 
-	float Ammo = 3;
+	float Ammo = 3; 
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
