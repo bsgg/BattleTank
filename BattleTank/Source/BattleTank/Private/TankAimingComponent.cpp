@@ -119,6 +119,9 @@ void UTankAimingComponent::Fire()
 		if (!ensure(Barrel)) return;
 		if (!ensure(ProjectileBlueprint)) return;
 
+
+		UE_LOG(LogTemp, Warning, TEXT("Fire!! "));
+
 		// Spawn a projectile at the socket location on the barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
