@@ -28,6 +28,27 @@ void ATankAIController::Tick(float DeltaTime)
 	
 	aimingComponent->AimAt(PlayerTank->GetActorLocation());
 
+	/*if (aimingComponent->GetFireState() == EFiringState::Locked)
+	{
+
+		UE_LOG(LogTemp, Warning, TEXT("[ATankAIController::Tick] EFiringState::Locked "));
+	}
+	else if (aimingComponent->GetFireState() == EFiringState::Reloading)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[ATankAIController::Tick] FiringState::Reloading "));
+
+	}
+	else if (aimingComponent->GetFireState() == EFiringState::Aiming)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[ATankAIController::Tick] EFiringState::Aiming "));
+
+	}
+	else if (aimingComponent->GetFireState() == EFiringState::NoAmmo)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[ATankAIController::Tick] EFiringState::NoAmmo "));
+
+	}*/
+
 	// If state is locked then fire
 	if (aimingComponent->GetFireState() == EFiringState::Locked)
 	{

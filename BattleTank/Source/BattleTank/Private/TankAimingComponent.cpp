@@ -35,14 +35,20 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	}
 	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
 	{
+		//UE_LOG(LogTemp, Warning, TEXT("[UTankAimingComponent::TickComponent] %s FiringState::Reloading "), *(GetOwner()->GetName()));
+
 		FiringState = EFiringState::Reloading;
 	}
 	else if (IsBarrelMoving())
 	{
+		//UE_LOG(LogTemp, Warning, TEXT("[UTankAimingComponent::TickComponent] %s FiringState::Aiming "), *(GetOwner()->GetName()));
+
 		FiringState = EFiringState::Aiming;
 	}
 	else
 	{
+		//UE_LOG(LogTemp, Warning, TEXT("[UTankAimingComponent::TickComponent] %s FiringState::Locked "), *(GetOwner()->GetName()));
+
 		FiringState = EFiringState::Locked;
 	}
 }
@@ -59,7 +65,13 @@ bool UTankAimingComponent::IsBarrelMoving() const
 
 	FVector forwardBarrel = Barrel->GetForwardVector();
 
-	return (!forwardBarrel.Equals(AimDirection, 0.01f));
+	// TODO AICONTROLLER ALWAYS SAYS BARRERL MOVING
+	bool barrerlMoving = (!forwardBarrel.Equals(AimDirection, 0.1f)); // vectors are equal
+
+
+	//UE_LOG(LogTemp, Warning, TEXT("[UTankAimingComponent::IsBarrelMoving] %s barrerlMoving  %i"), *(GetOwner()->GetName()), barrerlMoving);
+
+	return barrerlMoving;
 }
 
 

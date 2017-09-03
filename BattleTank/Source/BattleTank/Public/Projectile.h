@@ -30,6 +30,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Settings")
 	float DestroyDelay = 10.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	float ProjectileDamage = 20.0f;
+
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UStaticMeshComponent* CollisionMesh = nullptr;
 
