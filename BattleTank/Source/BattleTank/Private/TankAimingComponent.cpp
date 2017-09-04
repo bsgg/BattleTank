@@ -59,7 +59,7 @@ void UTankAimingComponent::Initialise(UTankBarrel* barrelToSet, UTankTurret* tur
 	Turret = turretToSet;
 }
 
-bool UTankAimingComponent::IsBarrelMoving() const
+bool UTankAimingComponent::IsBarrelMoving() const 
 {
 	if (!ensure(Barrel)) { return false; }
 

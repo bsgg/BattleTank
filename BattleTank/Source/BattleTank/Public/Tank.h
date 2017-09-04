@@ -7,6 +7,8 @@
 
 // Forward declarations
 
+// Delegate tank
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 
 UCLASS()
@@ -27,6 +29,9 @@ public:
 	// BlueprintPure is const, only readonly for blueprunt
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHealthPercent() const;
+
+	// Event delegate
+	FTankDelegate OnDeath;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")

@@ -22,6 +22,13 @@ protected:
 private:
 	virtual void BeginPlay() override;
 
+	// Override Setter for Pawn. This function is called when  possessing/unpossessing a Pawn.
+	virtual void SetPawn(APawn* InPawn) override;
+
 	virtual void Tick(float DeltaSeconds) override;
+
+	// Method to suscribe the event delegate OnDeath form Tank.h
+	UFUNCTION()
+	void OnPossedTankDeath();
 	
 };
