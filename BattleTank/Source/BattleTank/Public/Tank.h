@@ -25,6 +25,8 @@ public:
 	
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
 
+	
+
 	// Return current health as a percentage of starting health, between 0 and 1
 	// BlueprintPure is const, only readonly for blueprunt
 	UFUNCTION(BlueprintPure, Category = "Health")
@@ -34,10 +36,14 @@ public:
 	FTankDelegate OnDeath;
 
 private:
+
+	virtual void BeginPlay() override;
+
+
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	int32 StartingHealth = 100;
 
 	UPROPERTY(VisibleAnywhere, Category = "Health")
-	int32 CurrentHealth = StartingHealth;
+	int32 CurrentHealth;
 	
 };

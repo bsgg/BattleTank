@@ -3,6 +3,7 @@
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
 #include "TankPlayerController.h"
+#include "Tank.h"
 
 
 void ATankPlayerController::BeginPlay()
@@ -18,6 +19,41 @@ void ATankPlayerController::BeginPlay()
 	
 	
 }
+
+
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn)
+	{
+		auto possessedTank = Cast<ATank>(InPawn);
+		if (!ensure(possessedTank))
+		{
+			return;
+		}
+
+		// Suscribe our local method ot the tank's death event
+		possessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnControlTankDeath);
+	}
+}
+
+void ATankPlayerController::OnControlTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("[  ATankPlayerController::OnControlTankDeath] %s "), *GetName());
+
+	// Start spectating mode, as the only mode allowed.
+	StartSpectatingOnly();
+
+	// Call this function to detach safely pawn from its controller, knowing that we will be destroyed soon.
+	/*if (GetPawn())
+	{
+		//GetPawn()->DetachFromControllerPendingDestroy();
+	}*/
+
+}
+
+
 
 void ATankPlayerController::Tick(float DeltaTime)
 {

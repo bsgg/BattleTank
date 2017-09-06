@@ -19,6 +19,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup") // Consider EditDefaultsOnly
 	float AcceptanceRadius = 8000;
 
+	// Method to suscribe the event delegate OnDeath form Tank.h
+	UFUNCTION()
+		void OnPossedTankDeath();
+
+
 private:
 	virtual void BeginPlay() override;
 
@@ -27,8 +32,6 @@ private:
 
 	virtual void Tick(float DeltaSeconds) override;
 
-	// Method to suscribe the event delegate OnDeath form Tank.h
-	UFUNCTION()
-	void OnPossedTankDeath();
+	
 	
 };
