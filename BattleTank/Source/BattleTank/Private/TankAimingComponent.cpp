@@ -19,8 +19,7 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::BeginPlay()
 {
-	//Super::BeginPlay(); 
-
+	Super::BeginPlay(); 
 	LastFireTime = FPlatformTime::Seconds();
 
 	//UE_LOG(LogTemp, Warning, TEXT("UTankAimingComponent::BeginPlay"));
@@ -101,13 +100,13 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	}
 }
 
-void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
+void UTankAimingComponent::MoveBarrelTowards(FVector TargetAimDirection)
 {
 	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 
 	// Work-out difference between current barrel roation, and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
-	auto AimAsRotator = aimDirection.Rotation();
+	auto AimAsRotator = TargetAimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
 	Barrel->Elevate(DeltaRotator.Pitch);
