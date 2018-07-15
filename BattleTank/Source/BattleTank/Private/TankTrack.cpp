@@ -2,54 +2,37 @@
 
 #include "BattleTank.h"
 #include "TankTrack.h"
+#include "SprungWheel.h"
 
 UTankTrack::UTankTrack()
 {
 	PrimaryComponentTick.bCanEverTick = false;	
 }
 
-void UTankTrack::BeginPlay()
+
+TArray<class ASprungWheel*> UTankTrack::GetWheels() const
 {
-	Super::BeginPlay();
-
-	// On Hit events
-	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
-}
-
-void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
-{
-	DriveTrack();
-	ApplySidewaysForce();
-	CurrentThrottle = 0.0f;
-}
-
-void UTankTrack::ApplySidewaysForce()
-{
-	// Calculate the slippage speed
-	float slippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
-
-	//Get deltatime
-	auto deltaTime = GetWorld()->GetDeltaSeconds();
-
-	// Work out required acceleration this frame to correct
-	FVector correctionAcceleration = -slippageSpeed / deltaTime * GetRightVector();
-
-	// Calculate and apply sidewasy for (F = m * a)
-	auto tankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
-	auto correctionForce = (tankRoot->GetMass() * correctionAcceleration) / 2; // There are 2 tracks
-	tankRoot->AddForce(correctionForce);
+	TArray<class ASprungWheel*> Wheels;
+	return Wheels;
 }
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1, 1);
-	
+	float CurrentThrottle = FMath::Clamp<float>(Throttle, -1, 1);	
+	DriveTrack(CurrentThrottle);
 }
 
-void UTankTrack::DriveTrack()
+void UTankTrack::DriveTrack(float CurrentThrottle)
 {
-	auto foreApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;
-	auto forceLocation = GetComponentLocation();
-	auto tankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-	tankRoot->AddForceAtLocation(foreApplied, forceLocation);
+	auto foreApplied = CurrentThrottle * TrackMaxDrivingForce;
+
+	auto Wheels = GetWheels();
+
+	auto ForcePerWheel = foreApplied / Wheels.Num();
+
+	for (ASprungWheel* Wheel : Wheels)
+	{
+		Wheel->AddDrivingForce(ForcePerWheel);
+	}
 }
+
