@@ -10,6 +10,8 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (!GetPawn()) return;
+
 	// Find aimingComponent in the tank pawn and call the event
 	auto aimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
